@@ -1,0 +1,51 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/rust
+
+    steps:
+      - checkout
+      - restore_cache:
+          # https://gist.github.com/zargony/de209b1a790c3cb2176c86405a51b33c
+          keys:
+            - v4-cargo-cache-{{ arch }}-{{ checksum "Cargo.lock" }}
+      - run: sudo apt install libegl1-mesa-dev libgtk-3-dev libsdl2-dev cmake
+      - run: cargo build
+      # - run: cargo test # todo: fix failing tests
+
+      - store_artifacts:
+          path: target/debug/build
+          destination: target/debug/build
+
+      - save_cache:
+          paths:
+            - /usr/local/cargo/registry
+            - target/debug/.fingerprint
+            - target/debug/build
+            - target/debug/deps
+          key: v4-cargo-cache-{{ arch }}-{{ checksum "Cargo.lock" }}
+
+  android:
+    docker:
+      - image: circleci/android:api-28
+    steps:
+      - checkout
+      - run:
+          name: Download Dependencies
+          working_directory: demo/android
+          command: ./gradlew androidDependencies
+
+      - run:
+          name: Build
+          working_directory: demo/android
+          command: ./gradlew assembleDebug
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build
+      - android:
+          requires:
+            - build
