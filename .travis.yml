@@ -8,4 +8,4 @@ addons:
     - cmake
 script:
   - cargo build
-  # - cargo test # todo: fix tests
+  - cargo test
