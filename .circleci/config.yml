@@ -28,6 +28,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: configure target # todo: put this in docker image
+          command: mkdir ~/.cargo && cp cargo-config ~/.cargo/config
+
+      - run:
           name: Build rust
           working_directory: demo/android/rust
           command: cargo build --target=aarch64-linux-android --release
