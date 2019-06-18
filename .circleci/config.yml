@@ -25,11 +25,17 @@ jobs:
   android:
     docker:
       - image: jrrr/android-rust
+
     steps:
       - checkout
       - run:
           name: configure target # todo: put this in docker image
           command: mkdir -p ~/.cargo && cp cargo-config ~/.cargo/config
+
+      - run:
+          name: add toolchain to $PATH
+          command: |
+            echo 'export PATH="/opt/android/android-ndk-r17b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin:$PATH"' >> $BASH_ENV
 
       - run:
           name: Build rust
