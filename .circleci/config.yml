@@ -24,7 +24,7 @@ jobs:
 
   android:
     docker:
-      - image: jrr/android-rust
+      - image: jrrr/android-rust
     steps:
       - checkout
       - run:
