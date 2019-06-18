@@ -36,6 +36,7 @@ jobs:
           name: add toolchain to $PATH
           command: |
             echo 'export PATH="/opt/android/android-ndk-r17b/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin:$PATH"' >> $BASH_ENV
+            aarch64-linux-android-clang --version
 
       - run:
           name: Build rust
