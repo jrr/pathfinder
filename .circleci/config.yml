@@ -14,10 +14,6 @@ jobs:
       - run: cargo build
       # - run: cargo test # todo: fix failing tests
 
-      - store_artifacts:
-          path: target/debug/build
-          destination: target/debug/build
-
       - save_cache:
           paths:
             - /usr/local/cargo/registry
@@ -28,9 +24,14 @@ jobs:
 
   android:
     docker:
-      - image: circleci/android:api-28
+      - image: jrr/android-rust
     steps:
       - checkout
+      - run:
+          name: Build rust
+          working_directory: demo/android/rust
+          command: cargo build --target=aarch64-linux-android --release
+
       - run:
           name: Download Dependencies
           working_directory: demo/android
@@ -41,11 +42,13 @@ jobs:
           working_directory: demo/android
           command: ./gradlew assembleDebug
 
+      - store_artifacts:
+          path: target
+          destination: target
+
 workflows:
   version: 2
   build-and-test:
     jobs:
+      - android
       - build
-      - android:
-          requires:
-            - build
