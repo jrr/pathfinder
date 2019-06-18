@@ -35,7 +35,12 @@ jobs:
       - run:
           name: add toolchain to $PATH
           command: |
+            ps -Af
             echo 'export PATH="/home/circleci/NDK/arm64/bin:$PATH"' >> $BASH_ENV
+
+      - run:
+          name: test claing
+          command: |
             aarch64-linux-android-clang --version
 
       - run:
