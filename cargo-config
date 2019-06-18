@@ -1,5 +1,0 @@
-
-[target.aarch64-linux-android]
-ar = "/home/circleci/NDK/arm64/bin/aarch64-linux-android-ar"
-linker = "/home/circleci/NDK/arm64/bin/aarch64-linux-android-clang"
-
