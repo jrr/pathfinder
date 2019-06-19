@@ -56,7 +56,7 @@ jobs:
           command: ./gradlew assembleDebug
 
       - store_artifacts:
-          path: target
+          path: demo/android/app/build
           destination: target
 
 workflows:
