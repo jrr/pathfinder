@@ -12,7 +12,7 @@ jobs:
             - v4-cargo-cache-{{ arch }}-{{ checksum "Cargo.lock" }}
       - run: sudo apt install libegl1-mesa-dev libgtk-3-dev libsdl2-dev cmake
       - run: cargo build
-      # - run: cargo test # todo: fix failing tests
+      - run: cargo test
 
       - save_cache:
           paths:
